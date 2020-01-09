@@ -1,0 +1,37 @@
+---
+releases:
+- name: cron
+  version: 1.3.0
+
+addons:
+- name: cronyc-tracking-job
+  jobs:
+  - name: cron
+    release: cron
+    properties:
+      cron:
+        entries:
+        
+        - command: rm -rf /var/vcap/sys/log/chrony-tracking.log
+          minute: '0'
+          hour: '0'
+          day: '*'
+          month: '*'
+          wday: '*'
+          user: root
+
+        - script:
+            name: chrony.sh
+            contents: |
+              #!/bin/bash
+              chronyc tracking | paste -s -d, - | sed 's/,/","/g'  | sed 's/ : /\":\"/g' | sed "s/.*/{\"&\"}/" | awk '{$1=$1};1' > /var/vcap/sys/log/chrony-tracking.log
+          minute: '30'
+          hour: '*'
+          day: '*'
+          month: '*'
+          wday: '*'
+          user: root
+  include:
+    instance_groups: [ diego_cell ]
+  exclude:
+    instance_groups: [backup_restore,clock_global,cloud_controller,cloud_controller_worker,credhub,diego_brain,diego_database,doppler,loggregator_trafficcontroller,mysql,mysql_monitor,mysql_proxy,nats,nfs_server,router,syslog_adapter,syslog_scheduler,uaa]
