@@ -1,5 +1,7 @@
 # chrony-tracking
-This guides helps to tracking time synchronzation on bosh deployed vms.
+This guides is help to track time synchronzation on bosh deployed vms.  The script runs as bosh addon on diego cell to run chroncyc tracking cmd.
+
+
 
 # Upload cron release to bosh
 ```
