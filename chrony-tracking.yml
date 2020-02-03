@@ -11,26 +11,26 @@ addons:
     properties:
       cron:
         entries:
-        
+
         - command: rm -rf /var/vcap/sys/log/chrony-tracking.log
           minute: '0'
           hour: '0'
           day: '*'
           month: '*'
           wday: '*'
-          user: root
+          user: vcap
 
         - script:
             name: chrony.sh
             contents: |
               #!/bin/bash
-              chronyc tracking | paste -s -d, - | sed 's/,/","/g'  | sed 's/ : /\":\"/g' | sed "s/.*/{\"&\"}/" | awk '{$1=$1};1' > /var/vcap/sys/log/chrony-tracking.log
+              chronyc tracking | paste -s -d, - | sed 's/,/","/g'  | sed 's/ : /\":\"/g' | sed "s/.*/{\"&\"}/" | awk '{$1=$1};1' >> /var/vcap/sys/log/chrony-tracking.log
           minute: '30'
           hour: '*'
           day: '*'
           month: '*'
           wday: '*'
-          user: root
+          user: vcap
   include:
     instance_groups: [ diego_cell ]
   exclude:
