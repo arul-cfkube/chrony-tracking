@@ -24,7 +24,8 @@ addons:
             name: chrony.sh
             contents: |
               #!/bin/bash
-              chronyc tracking | paste -s -d, - | sed 's/,/","/g'  | sed 's/ : /\":\"/g' | sed "s/.*/{\"&\"}/" | awk '{$1=$1};1' >> /var/vcap/sys/log/chrony-tracking.log
+              mkdir -p /var/vcap/sys/log/chrony
+              chronyc tracking | paste -s -d, - | sed 's/,/","/g'  | sed 's/ : /\":\"/g' | sed "s/.*/{\"&\"}/" | awk '{$1=$1};1' >> /var/vcap/sys/log/chrony/chrony-tracking.log
           minute: '30'
           hour: '*'
           day: '*'
