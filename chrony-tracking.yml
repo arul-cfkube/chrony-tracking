@@ -12,12 +12,20 @@ addons:
       cron:
         entries:
 
+        - command: rm -rf /var/vcap/sys/log/chrony/chrony-tracking.log
+          minute: '0'
+          hour: '0'
+          day: '*'
+          month: '*'
+          wday: '*'
+          user: root
+
         - script:
             name: chrony.sh
             contents: |
               #!/bin/bash
               mkdir -p /var/vcap/sys/log/chrony
-              chronyc tracking | paste -s -d, - | sed 's/,/","/g'  | sed 's/ : /\":\"/g' | sed "s/.*/{\"&\"}/" | awk '{$1=$1};1' > /var/vcap/sys/log/chrony/chrony-tracking.log
+              chronyc tracking | paste -s -d, - | sed 's/,/","/g'  | sed 's/ : /\":\"/g' | sed "s/.*/{\"&\"}/" | awk '{$1=$1};1' >> /var/vcap/sys/log/chrony/chrony-tracking.log
           minute: '*'
           hour: '/30'
           day: '*'
