@@ -31,7 +31,7 @@ addons:
           day: '*'
           month: '*'
           wday: '*'
-          user: vcap
+          user: root
   include:
     instance_groups: [ diego_cell ]
   exclude:
