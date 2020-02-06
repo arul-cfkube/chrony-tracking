@@ -26,8 +26,8 @@ addons:
               #!/bin/bash
               mkdir -p /var/vcap/sys/log/chrony
               chronyc tracking | paste -s -d, - | sed 's/,/","/g'  | sed 's/ : /\":\"/g' | sed "s/.*/{\"&\"}/" | awk '{$1=$1};1' >> /var/vcap/sys/log/chrony/chrony-tracking.log
-          minute: '*'
-          hour: '/30'
+          minute: '30'
+          hour: '*'
           day: '*'
           month: '*'
           wday: '*'
@@ -36,3 +36,4 @@ addons:
     instance_groups: [ diego_cell ]
   exclude:
     instance_groups: [backup_restore,clock_global,cloud_controller,cloud_controller_worker,credhub,diego_brain,diego_database,doppler,loggregator_trafficcontroller,mysql,mysql_monitor,mysql_proxy,nats,nfs_server,router,syslog_adapter,syslog_scheduler,uaa]
+© 2020 GitHub, Inc.
