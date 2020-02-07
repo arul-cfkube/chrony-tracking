@@ -16,6 +16,10 @@ bosh upload-release --sha1 fc04ff78ff958487be8829bb93d9023f6a87b7e6 \
 bosh update-runtime-config chrony-tracking.yml --name chrony-tracking
 
 ```
+# Get cloud foundry deployment manifest
+```
+bosh -d cf-deployment manifest > cf-manifest.yml
+```
 
 
 # Deploy using bosh
